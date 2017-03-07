@@ -44,13 +44,14 @@ class message_subject {
 
 
     void notify(shared_ptr<message>);
-    void notify2();
+    void notify_on_packet_header_complete(const string&);
     void notify_on_trade(const string& time_stamp, const string& value);
     void notify_on_ask(const string& time_stamp, const string& value);
     void notify_on_bid(const string& time_stamp, const string& value);
     void notify_on_trade_size(const string& time_stamp, const string& value);
     void notify_on_ask_size(const string& time_stamp, const string& value);
     void notify_on_bid_size(const string& time_stamp, const string& value);
+    void notify_on_precision(const string& time_stamp, const string& value);
 };
 
 #endif

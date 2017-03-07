@@ -7,9 +7,9 @@ void message_subject::notify(shared_ptr<message> msg) {
     views[i]->update(msg);
 }
 
-void message_subject::notify2() {
+void message_subject::notify_on_packet_header_complete(const string& header) {
   for (int i = 0; i < views.size(); i++)
-    views[i]->ping();
+    views[i]->ping(header);
 }
 
 void message_subject::notify_on_trade(const string& time_stamp, const string& value)
@@ -46,4 +46,10 @@ void message_subject::notify_on_bid_size(const string& time_stamp, const string&
 {
   for (int i = 0; i < bid_size_viewer.size(); i++)
     bid_size_viewer[i]->on_bid_size(time_stamp, value);
+}
+
+void message_subject::notify_on_precision(const string& time_stamp, const string& value)
+{
+  for (int i = 0; i < trade_viewer.size(); i++)
+    trade_viewer[i]->on_precision(time_stamp, value);
 }

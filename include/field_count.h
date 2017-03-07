@@ -15,6 +15,7 @@ public:
   void on_bid_size(const string& timestamp, const string& value) {}
   void on_ask(const string& timestamp, const string& value) {}
   void on_ask_size(const string& timestamp, const string& value) {}
+  void on_precision(const string& timestamp, const string& value) {}
   int get_count() { return count; }
 private:
   int count = 0;

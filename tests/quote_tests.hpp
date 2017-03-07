@@ -40,6 +40,18 @@ TEST_F(quote_tests, test1) {
   cf.set_client(qp);
   cf.run();
   EXPECT_EQ("1","1");
+
+}
+
+TEST_F(quote_tests, precision)
+{
+  string message = "t~f4t1211650i-125f79,6g54,60000";
+  quote q;
+  q.on_message_delimiter(message[0]);
+  for (int i = 1; i < 5; ++i) q.on_message_char(message[i]);
+  EXPECT_EQ(q.field_code, 'f');
+  EXPECT_EQ(q.field_code_value, "");
+  EXPECT_EQ(q.field_value, "4");
 }
 
 TEST_F(quote_tests, test2) {

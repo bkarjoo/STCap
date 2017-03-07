@@ -3,7 +3,8 @@
 #include "field_tests.hpp"
 #include "exchange_time_test.hpp"
 #include "message_tests.hpp"
-#include "quote_tests.hpp"
+//#include "quote_tests.hpp"
+#include "strategy_tests.hpp"
 
 int main(int argc, char* argv[])
 {

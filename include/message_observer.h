@@ -3,17 +3,17 @@
 #include <memory>
 #include <message.h>
 
-using std::shared_ptr;
+
 
 class message_observer {
-    shared_ptr<message_subject> model;
+    std::shared_ptr<message_subject> model;
 
   public:
-    message_observer(shared_ptr<class message_subject> mod) {
+    message_observer(std::shared_ptr<class message_subject> mod) {
         model = mod;
         model->attach(this);
     }
-    virtual void update(shared_ptr<message>) = 0;
+    virtual void update(std::shared_ptr<message>) = 0;
     virtual void ping() = 0;
     virtual void on_trade(const string& timestamp, const string& value) = 0;
     virtual void on_trade_size(const string& timestamp, const string& value) = 0;
@@ -21,8 +21,9 @@ class message_observer {
     virtual void on_bid_size(const string& timestamp, const string& value) = 0;
     virtual void on_ask(const string& timestamp, const string& value) = 0;
     virtual void on_ask_size(const string& timestamp, const string& value) = 0;
+    virtual void on_precision(const string& timestamp, const string& value) = 0;
   protected:
-    shared_ptr<message_subject> getmessage_subject() {
+    std::shared_ptr<message_subject> getmessage_subject() {
         return model;
     }
 };
