@@ -5,6 +5,7 @@ INC = -I $(GTEST_HOME) -I $(GTEST_HOME)/include -I . -I ../include -I ../src
 LDLIBS = $(GTEST_HOME)/lib/libgtest.a
 LDFLAGS =
 CXXFLAGS = -std=c++14 -pthread
+BUILD_FILES = build/quote_observer.o build/quote.o build/exchange_time.o build/field.o build/message.o build/message_subject.o build/message_constructor.o build/cap_file.o build/cap_char_receiver_interface.o build/cap_char_receiver.o
 
 TARGET = unit_tests
 
@@ -16,10 +17,19 @@ DEPS = $(OBJ:%.o=%.d)
 $(TARGET) : $(BUILD_DIR)/$(TARGET)
 
 $(BUILD_DIR)/$(TARGET) : $(OBJ)
+	$(CXX) -c ../src/cap_file.cpp -o ./build/cap_file.o -I ../include
 	$(CXX) -c ../src/cap_char_receiver_interface.cpp -o ./build/cap_char_receiver_interface.o -I ../include
 	$(CXX) -c ../src/cap_char_receiver.cpp -o ./build/cap_char_receiver.o -I ../include
 	$(CXX) -c ../src/cap_file.cpp -o ./build/cap_file.o -I ../include
-	$(CXX) $(CXXFLAGS) build/cap_file.o build/cap_char_receiver_interface.o build/cap_char_receiver.o $^ -o $@ $(LDFLAGS) $(LDLIBS)
+	$(CXX) -c ../src/message_subject.cpp -o ./build/message_subject.o -I ../include
+	$(CXX) -c ../src/message_constructor.cpp -o ./build/message_constructor.o -I ../include
+	$(CXX) -c ../src/message.cpp -o ./build/message.o -I ../include
+	$(CXX) -c ../src/field.cpp -o ./build/field.o -I ../include
+	$(CXX) -c ../src/quote.cpp -o ./build/quote.o -I ../include
+	$(CXX) -c ../src/quote_observer.cpp -o ./build/quote_observer.o -I ../include
+	$(CXX) -c ../src/exchange_time.cpp -o ./build/exchange_time.o -I ../include
+	$(CXX) $(CXXFLAGS) $(BUILD_FILES) $^ -o $@ $(LDFLAGS) $(LDLIBS)
+
 
 -include $(DEPS)
 

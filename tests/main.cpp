@@ -1,5 +1,9 @@
 #include "gtest/gtest.h"
-#include "cap_file_test.hpp"
+//#include "cap_file_test.hpp"
+#include "field_tests.hpp"
+#include "exchange_time_test.hpp"
+#include "message_tests.hpp"
+#include "quote_tests.hpp"
 
 int main(int argc, char* argv[])
 {

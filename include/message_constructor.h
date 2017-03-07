@@ -1,5 +1,5 @@
-#ifndef MESSAGE_INTERPRETER_H_
-#define MESSAGE_INTERPRETER_H_
+#ifndef MESSAGE_CONSTRUCTOR_H_
+#define MESSAGE_CONSTRUCTOR_H_
 #include <memory>
 #include <string>
 #include <vector>
@@ -9,10 +9,10 @@
 #include "field.h"
 
 
-class message_interpreter : public cap_char_receiver_interface, public message_subject {
+class message_constructor : public cap_char_receiver_interface, public message_subject {
 public:
-  message_interpreter() {  }
-  ~message_interpreter() {}
+  message_constructor() {  }
+  ~message_constructor() {}
   void on_header_char(const char&);
   void on_message_char(const char&);
   void on_packet_delimiter(const char&);
@@ -23,4 +23,4 @@ private:
   void finalize_message();
 };
 
-#endif // MESSAGE_INTERPRETER_H_
+#endif // MESSAGE_CONSTRUCTOR_H_

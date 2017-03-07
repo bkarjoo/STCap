@@ -8,6 +8,14 @@ ehthumbs.db
 *.o
 *.d
 *.exe
+*.cmake
+*.bin
+*.txt
+*.check_cache
+*.log
+cmake-build-debug/
+.idea/
+
 
 # Folder config file
 Desktop.ini
