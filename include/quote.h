@@ -28,7 +28,7 @@ public:
 
 
   string packet_header_str = "";
-
+  bool packet_header_complete = false;
   // message
   char first_prefix = 0;
   char message_delimiter = 0;

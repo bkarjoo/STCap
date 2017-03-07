@@ -1,47 +1,27 @@
 CXX = g++
-
+CXXFLAGS = -std=c++14 -pthread
 GTEST_HOME = C:\Users\b.karjoo\Documents\gtest-1.7.0
 INC = -I $(GTEST_HOME) -I $(GTEST_HOME)/include -I . -I ../include -I ../src
 LDLIBS = $(GTEST_HOME)/lib/libgtest.a
-LDFLAGS =
-CXXFLAGS = -std=c++14 -pthread
-BUILD_FILES = build/quote_observer.o build/quote.o build/exchange_time.o build/field.o build/message.o build/message_subject.o build/message_constructor.o build/cap_file.o build/cap_char_receiver_interface.o build/cap_char_receiver.o
+B = build/
+OBJ_FILES = \
+	$(B)strategy.o $(B)strat_ma_cross.o \
+	$(B)message_subject.o $(B)quote.o $(B)message.o $(B)field.o $(B)cap_char_receiver_interface.o  \
+	$(B)cap_file.o $(B)cap_char_receiver.o $(B)exchange_time.o $(B)main.o
 
 TARGET = unit_tests
 
-BUILD_DIR = ./build
-SRCS = $(wildcard *.cpp)
-OBJ = $(SRCS:%.cpp=$(BUILD_DIR)/%.o)
-DEPS = $(OBJ:%.o=%.d)
+$(TARGET): $(OBJ_FILES)
+	$(CXX) $(CXXFLAGS) $(OBJ_FILES) -o $(B)$(TARGET)  $(LDLIBS)
 
-$(TARGET) : $(BUILD_DIR)/$(TARGET)
+$(B)%.o: ../src/%.cpp
+	$(CXX) -c $< -o $@ $(INC)
 
-$(BUILD_DIR)/$(TARGET) : $(OBJ)
-	$(CXX) -c ../src/cap_file.cpp -o ./build/cap_file.o -I ../include
-	$(CXX) -c ../src/cap_char_receiver_interface.cpp -o ./build/cap_char_receiver_interface.o -I ../include
-	$(CXX) -c ../src/cap_char_receiver.cpp -o ./build/cap_char_receiver.o -I ../include
-	$(CXX) -c ../src/cap_file.cpp -o ./build/cap_file.o -I ../include
-	$(CXX) -c ../src/message_subject.cpp -o ./build/message_subject.o -I ../include
-	$(CXX) -c ../src/message_constructor.cpp -o ./build/message_constructor.o -I ../include
-	$(CXX) -c ../src/message.cpp -o ./build/message.o -I ../include
-	$(CXX) -c ../src/field.cpp -o ./build/field.o -I ../include
-	$(CXX) -c ../src/quote.cpp -o ./build/quote.o -I ../include
-	$(CXX) -c ../src/quote_observer.cpp -o ./build/quote_observer.o -I ../include
-	$(CXX) -c ../src/exchange_time.cpp -o ./build/exchange_time.o -I ../include
-	$(CXX) $(CXXFLAGS) $(BUILD_FILES) $^ -o $@ $(LDFLAGS) $(LDLIBS)
-
-
--include $(DEPS)
-
-$(BUILD_DIR)/%.o : %.cpp
-	$(CXX) -static $(CXXFLAGS) -MMD -c $< -o $@ $(INC)
-
-.PHONY: all clean tests
-
-all: clean $(TARGET)
-
-clean:
-	rm -fr $(BUILD_DIR)
+build/main.o : main.cpp strategy_tests.hpp
+	$(CXX) -c $< -o $@ $(INC)
 
 tests: $(TARGET)
-	$(BUILD_DIR)/$(TARGET)
+	$(B)/$(TARGET)
+
+clean:
+	del build\*.* /Q

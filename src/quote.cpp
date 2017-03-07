@@ -24,10 +24,15 @@ void quote::on_packet_delimiter(const char& c)
   if (message_exists) finalize_message(); // don't initialize until message delimiter
 
   packet_header_str = "";
+  packet_header_complete = false;
 }
 
 void quote::on_message_delimiter(const char& c)
 {
+  if (!packet_header_complete) {
+    packet_header_complete = true;
+    notify_on_packet_header_complete(packet_header_str);
+  }
   if (field_exists) finalize_field();
   if (message_exists) finalize_message();
   initialize_message(c);
@@ -95,6 +100,9 @@ void quote::finalize_field()
     switch (field_code) {
       case 'g':
         if(field_code_value == "77") swap(time_stamp,field_value);
+        break;
+      case 'f':
+        if(field_code_value == "") notify_on_precision(time_stamp,field_value);
         break;
       case 'j':
         notify_on_bid_size(time_stamp, field_value);
