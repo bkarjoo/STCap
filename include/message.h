@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include "field.h"
+#include "exchange_time.h"
 
 using std::string;
 using std::shared_ptr;
@@ -11,7 +12,7 @@ using std::vector;
 
 class message {
 public:
-  message(char c) { message_delimiter = c; };
+  message(char c) { message_delimiter = c; message_str += c; }
   ~message() {};
   // for efficiency chars are passed directly to message, which constructs itself
   void add_char(const char&);
@@ -23,6 +24,8 @@ public:
   const char& get_first_prefix() { return first_prefix; }
   const char& get_second_prefix() { return second_prefix; }
   const char& get_suffix() { return suffix; }
+  string to_string() { return message_str; } // for testing purposes only
+  vector<shared_ptr<field>>& get_fields() { return fields; }
 private:
   // message components
   char first_prefix = 0;
@@ -35,8 +38,7 @@ private:
   bool is_first_char = true;
   bool message_header_complete = false;
   std::shared_ptr<field> fp = nullptr;
-  std::vector<char> symbol_vector;
-  std::vector<char> message_vector; // for testing only
+  string message_str; // for testing only
   // helper functions
   void on_message_header_complete();
   void on_field_delimiter(const char&);
@@ -48,5 +50,8 @@ private:
   bool is_field_delimiter(const char&);
   bool is_lower_case(const char&);
   bool is_upper_case(const char&);
+  bool previous_char_was_delimiter = false;
+  // main fields
+  string time;
 };
 #endif // MESSAGE_H

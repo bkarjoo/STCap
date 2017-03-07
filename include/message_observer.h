@@ -7,13 +7,20 @@ using std::shared_ptr;
 
 class message_observer {
     shared_ptr<message_subject> model;
-    int denom;
+
   public:
     message_observer(shared_ptr<class message_subject> mod) {
         model = mod;
         model->attach(this);
     }
     virtual void update(shared_ptr<message>) = 0;
+    virtual void ping() = 0;
+    virtual void on_trade(const string& timestamp, const string& value) = 0;
+    virtual void on_trade_size(const string& timestamp, const string& value) = 0;
+    virtual void on_bid(const string& timestamp, const string& value) = 0;
+    virtual void on_bid_size(const string& timestamp, const string& value) = 0;
+    virtual void on_ask(const string& timestamp, const string& value) = 0;
+    virtual void on_ask_size(const string& timestamp, const string& value) = 0;
   protected:
     shared_ptr<message_subject> getmessage_subject() {
         return model;

@@ -50,9 +50,9 @@ TEST_F(CapFileTests, CapFileInitializationTest) {
 }
 
 TEST_F(CapFileTests, ReadTest) {
-  cp->run(); 
-  EXPECT_EQ(ccrp->get_char_count(),65151419);
-  EXPECT_EQ(ccrp->get_packet_count(),29635);
+  cp->run();
+  EXPECT_EQ(ccrp->get_char_count(),65151420);
+  EXPECT_EQ(ccrp->get_packet_count(),29636);
   EXPECT_EQ(ccrp->get_message_count(),644533);
 }
 
