@@ -1,15 +1,20 @@
 #include "strategy.h"
 
-void strategy::on_trade(const string& timestamp, const string& value)
-{
-  set_time(timestamp);
-  set_trade(value);
+void strategy::ping(const string& packet_header) {
+  string timestamp = covert_header_to_timestamp(packet_header);
+  if (timestamp != "") set_time(timestamp);
 }
 
-void strategy::on_trade_size(const string& timestamp, const string& value)
+void strategy::on_last(const string& timestamp, const string& value)
 {
   set_time(timestamp);
-  set_trade_size(value) ;
+  set_last(value);
+}
+
+void strategy::on_last_size(const string& timestamp, const string& value)
+{
+  set_time(timestamp);
+  set_last_size(value) ;
 }
 
 void strategy::on_bid(const string& timestamp, const string& value)
@@ -88,10 +93,10 @@ double strategy::convert_price(const string& value)
 
 }
 
-void strategy::set_trade(const string& value)
+void strategy::set_last(const string& value)
 {
   double val = convert_price(value);
-  if (val != 0) trade = val;
+  if (val != 0) last = val;
 }
 
 void strategy::set_bid(const string& value)
@@ -106,10 +111,10 @@ void strategy::set_ask(const string& value)
   if (val != 0) ask = val;
 }
 
-void strategy::set_trade_size(const string& value)
+void strategy::set_last_size(const string& value)
 {
   int val = convert_size(value);
-  if (val != 0) trade_size = val * 100;
+  if (val != 0) last_size = val * 100;
 }
 
 void strategy::set_bid_size(const string& value)
@@ -132,4 +137,18 @@ int strategy::convert_size(const string& value)
   } catch (...) {
     return 0;
   }
+}
+
+string strategy::covert_header_to_timestamp(const string& header)
+{
+  if (header.length() < 8) return "";
+  string ts = "";
+  if (header[0] != '0') ts += header[0];
+  ts += header[1];
+  if (header[2] != ':') return "";
+  ts += header[3]; ts += header[4];
+  if (header[5] != ':') return "";
+  ts += header[6]; ts += header[7];
+  ts += "000";
+  return ts;
 }

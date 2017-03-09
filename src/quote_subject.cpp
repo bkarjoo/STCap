@@ -1,54 +1,54 @@
-#include "message_subject.h"
-#include "message_observer.h"
+#include "quote_subject.h"
+#include "quote_observer_interface.h"
 
-void message_subject::notify(shared_ptr<message> msg) {
+void quote_subject::notify(shared_ptr<message> msg) {
   // 5. Publisher broadcasts
   for (int i = 0; i < views.size(); i++)
     views[i]->update(msg);
 }
 
-void message_subject::notify_on_packet_header_complete(const string& header) {
+void quote_subject::notify_on_packet_header_complete(const string& header) {
   for (int i = 0; i < views.size(); i++)
     views[i]->ping(header);
 }
 
-void message_subject::notify_on_trade(const string& time_stamp, const string& value)
+void quote_subject::notify_on_trade(const string& time_stamp, const string& value)
 {
   for (int i = 0; i < trade_viewer.size(); i++)
     trade_viewer[i]->on_trade(time_stamp, value);
 }
 
-void message_subject::notify_on_ask(const string& time_stamp, const string& value)
+void quote_subject::notify_on_ask(const string& time_stamp, const string& value)
 {
   for (int i = 0; i < ask_viewer.size(); i++)
     ask_viewer[i]->on_ask(time_stamp, value);
 }
 
-void message_subject::notify_on_bid(const string& time_stamp, const string& value)
+void quote_subject::notify_on_bid(const string& time_stamp, const string& value)
 {
   for (int i = 0; i < bid_viewer.size(); i++)
     bid_viewer[i]->on_bid(time_stamp, value);
 }
 
-void message_subject::notify_on_trade_size(const string& time_stamp, const string& value)
+void quote_subject::notify_on_trade_size(const string& time_stamp, const string& value)
 {
   for (int i = 0; i < trade_size_viewer.size(); i++)
     trade_size_viewer[i]->on_trade_size(time_stamp, value);
 }
 
-void message_subject::notify_on_ask_size(const string& time_stamp, const string& value)
+void quote_subject::notify_on_ask_size(const string& time_stamp, const string& value)
 {
   for (int i = 0; i < ask_size_viewer.size(); i++)
     ask_size_viewer[i]->on_ask_size(time_stamp, value);
 }
 
-void message_subject::notify_on_bid_size(const string& time_stamp, const string& value)
+void quote_subject::notify_on_bid_size(const string& time_stamp, const string& value)
 {
   for (int i = 0; i < bid_size_viewer.size(); i++)
     bid_size_viewer[i]->on_bid_size(time_stamp, value);
 }
 
-void message_subject::notify_on_precision(const string& time_stamp, const string& value)
+void quote_subject::notify_on_precision(const string& time_stamp, const string& value)
 {
   for (int i = 0; i < trade_viewer.size(); i++)
     trade_viewer[i]->on_precision(time_stamp, value);

@@ -26,4 +26,4 @@ $(BUILD_DIR)/%.o : %.cpp
 all: clean $(TARGET)
 
 clean:
-	rm -fr $(BUILD_DIR)
+	del build\*.* /q

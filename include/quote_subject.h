@@ -1,5 +1,5 @@
-#ifndef MESSAGE_SUBJECT_H_
-#define MESSAGE_SUBJECT_H_
+#ifndef QUOTE_SUBJECT_H_
+#define QUOTE_SUBJECT_H_
 
 #include <memory>
 #include <vector>
@@ -8,40 +8,39 @@
 using std::vector;
 using std::shared_ptr;
 
-class message_subject {
+class quote_subject {
 
-    vector < class message_observer * > views;
-    vector < class message_observer * > trade_viewer;
-    vector < class message_observer * > ask_viewer;
-    vector < class message_observer * > bid_viewer;
-    vector < class message_observer * > trade_size_viewer;
-    vector < class message_observer * > ask_size_viewer;
-    vector < class message_observer * > bid_size_viewer;
+    vector < class quote_observer_interface * > views;
+    vector < class quote_observer_interface * > trade_viewer;
+    vector < class quote_observer_interface * > ask_viewer;
+    vector < class quote_observer_interface * > bid_viewer;
+    vector < class quote_observer_interface * > trade_size_viewer;
+    vector < class quote_observer_interface * > ask_size_viewer;
+    vector < class quote_observer_interface * > bid_size_viewer;
 
   public:
-    void attach(message_observer *obs) {
+    void attach(quote_observer_interface *obs) {
         views.push_back(obs);
     }
 
-    void attach_trade_viewer(message_observer *obs) {
+    void attach_trade_viewer(quote_observer_interface *obs) {
         trade_viewer.push_back(obs);
     }
-    void attach_trade_size_viewer(message_observer *obs) {
+    void attach_trade_size_viewer(quote_observer_interface *obs) {
         trade_size_viewer.push_back(obs);
     }
-    void attach_bid_viewer(message_observer *obs) {
+    void attach_bid_viewer(quote_observer_interface *obs) {
         bid_viewer.push_back(obs);
     }
-    void attach_bid_size_viewer(message_observer *obs) {
+    void attach_bid_size_viewer(quote_observer_interface *obs) {
         bid_size_viewer.push_back(obs);
     }
-    void attach_ask_viewer(message_observer *obs) {
+    void attach_ask_viewer(quote_observer_interface *obs) {
         ask_viewer.push_back(obs);
     }
-    void attach_ask_size_viewer(message_observer *obs) {
+    void attach_ask_size_viewer(quote_observer_interface *obs) {
         ask_size_viewer.push_back(obs);
     }
-
 
     void notify(shared_ptr<message>);
     void notify_on_packet_header_complete(const string&);

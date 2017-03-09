@@ -5,11 +5,11 @@
 #include <vector>
 #include "cap_char_receiver_interface.h"
 #include "message.h"
-#include "message_subject.h"
+#include "quote_subject.h"
 #include "field.h"
 
 
-class message_constructor : public cap_char_receiver_interface, public message_subject {
+class message_constructor : public cap_char_receiver_interface, public quote_subject {
 public:
   message_constructor() {  }
   ~message_constructor() {}

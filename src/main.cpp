@@ -9,8 +9,8 @@
 #include "packet_header_printer.h"
 #include "packet_separator.h"
 #include "message_constructor.h"
-#include "message_subject.h"
-#include "message_observer.h"
+#include "quote_subject.h"
+#include "quote_observer_interface.h"
 #include "quote.h"
 #include "quote_observer.h"
 #include "field_count.h"
@@ -36,9 +36,7 @@ void print_menu() {
   cout << "2) Break file into packets." << endl;
   cout << "3) Print message(s)." << endl;
   cout << "4) Print header(s)." << endl;
-  cout << "5) find message(s)." << endl;
-  cout << "6) Print field count." << endl;
-  cout << "7) " << endl;
+  cout << "5) Print tape(s)." << endl;
   cout << "q) Quit." << endl;
   cout << endl;
 }
@@ -171,8 +169,9 @@ void tape_printer()
   qp->attach_bid_viewer(&qo);
   qp->attach_bid_size_viewer(&qo);
   cf.run();
-  cout << qo.get_count() << endl;
 }
+
+
 
 int main()
 {

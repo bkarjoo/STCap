@@ -5,8 +5,8 @@ INC = -I $(GTEST_HOME) -I $(GTEST_HOME)/include -I . -I ../include -I ../src
 LDLIBS = $(GTEST_HOME)/lib/libgtest.a
 B = build/
 OBJ_FILES = \
-	$(B)strategy.o $(B)strat_ma_cross.o \
-	$(B)message_subject.o $(B)quote.o $(B)message.o $(B)field.o $(B)cap_char_receiver_interface.o  \
+	$(B)strategy.o $(B)strat_ma_cross.o $(B)message_printer.o\
+	$(B)quote_subject.o $(B)quote.o $(B)message.o $(B)field.o $(B)cap_char_receiver_interface.o  \
 	$(B)cap_file.o $(B)cap_char_receiver.o $(B)exchange_time.o $(B)main.o
 
 TARGET = unit_tests

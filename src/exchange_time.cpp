@@ -1,63 +1,59 @@
 #include "exchange_time.h"
+#include <iostream>
+using std::cout; using std::endl;
 
 using std::stoi;
+using std::string;
 
-void exchange_time::set(string timestamp)
+
+
+exchange_time::exchange_time(const string& theTime)
 {
-    char ms1, ms2, ms3, s1, s2, m1, m2, h1 = 0, h2;
-    if (timestamp.length() > 2) {
-    ms3 = timestamp.back();
-    timestamp.erase(timestamp.end()-1,timestamp.end());
-    ms2 = timestamp.back();
-    timestamp.erase(timestamp.end()-1,timestamp.end());
-    ms1 = timestamp.back();
-    timestamp.erase(timestamp.end()-1,timestamp.end());
-      if (timestamp.length() > 1) {
-        s2 = timestamp.back();
-        timestamp.erase(timestamp.end()-1,timestamp.end());
-        s1 = timestamp.back();
-        timestamp.erase(timestamp.end()-1,timestamp.end());
-        if (timestamp.length() > 1) {
-          m2 = timestamp.back();
-          timestamp.erase(timestamp.end()-1,timestamp.end());
-          m1 = timestamp.back();
-          timestamp.erase(timestamp.end()-1,timestamp.end());
-          if (timestamp.length() > 0) {
-            h2 = timestamp.back();
-            timestamp.erase(timestamp.end()-1,timestamp.end());
-            if (timestamp.length() > 0) {
-              h1 = timestamp.back();
-              timestamp.erase(timestamp.end()-1,timestamp.end());
-            }
-            string ms = ""; ms += ms1; ms += ms2; ms += ms3;
-            milliseconds = stoi(ms);
-            string s = ""; s+= s1; s += s2;
-            seconds = stoi(s);
-            string m = ""; m += m1; m += m2;
-            minutes = stoi(m);
-            string h = ""; if (h1 != 0) h += h1; h += h2;
-            hours = stoi(h);
-          }
-        }
-      }
-    }
+  seconds_from_midnight = to_secs_from_midnight(theTime);
 }
 
-double exchange_time::seconds_from_midnight() const {
-  return seconds + minutes * 60.0 + hours * 3600.0 + milliseconds / 1000.0;
+void exchange_time::set_time(const string& theTime)
+{
+  seconds_from_midnight = to_secs_from_midnight(theTime);
 }
+
+double exchange_time::to_secs_from_midnight(const string& t)  {
+  // time must at least be 8 characters long
+  // (h)hmmsslll hours,minutes,seconds,milliseconds
+  if (t.length() < 8) throw invalid_time_format();
+  try {
+    string ms = "";
+    ms += t[t.length() - 3]; ms += t[t.length() - 2]; ms += t[t.length() - 1];
+    milliseconds = stoi(ms);
+    string s = "";
+    s += t[t.length() - 5]; s += t[t.length() - 4];
+    seconds = stoi(s);
+    string m = "";
+    m += t[t.length() - 7]; m += t[t.length() - 6];
+    minutes = stoi(m);
+    string h = "";
+    if (t.length() == 9) h += t[t.length() - 9];
+    h += t[t.length() - 8];
+    hours = stoi(h);
+    return seconds + minutes * 60.0 + hours * 3600.0 + milliseconds / 1000.0;
+  } catch (...) {
+    throw invalid_time_format();
+    return 0.0;
+  }
+}
+
 
 bool exchange_time::operator<(const exchange_time& other) const
 {
-  return seconds_from_midnight() < other.seconds_from_midnight();
+  return get_seconds_from_midnight() < other.get_seconds_from_midnight();
 }
 
 bool exchange_time::operator>(const exchange_time& other) const
 {
-  return seconds_from_midnight() > other.seconds_from_midnight();
+  return get_seconds_from_midnight() > other.get_seconds_from_midnight();
 }
 
 bool exchange_time::operator==(const exchange_time& other) const
 {
-  return seconds_from_midnight() - other.seconds_from_midnight() < .00001;
+  return get_seconds_from_midnight() - other.get_seconds_from_midnight() < .00001;
 }

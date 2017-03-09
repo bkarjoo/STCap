@@ -7,7 +7,7 @@
 #include <utility>
 #include <vector>
 #include "cap_char_receiver_interface.h"
-#include "message_subject.h"
+#include "quote_subject.h"
 #include "quote_observer.h"
 
 using std::string;
@@ -16,7 +16,7 @@ using std::shared_ptr;
 
 class quote_observer;
 
-class quote : public cap_char_receiver_interface, public message_subject {
+class quote : public cap_char_receiver_interface, public quote_subject {
   friend class quote_tests;
 public:
   quote() {  }

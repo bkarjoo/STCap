@@ -1,12 +1,12 @@
 #ifndef FIELD_COUNT_H_
 #define FIELD_COUNT_H_
 #include <memory>
-#include "message_subject.h"
-#include "message_observer.h"
+#include "quote_subject.h"
+#include "quote_observer_interface.h"
 
-class field_count : public message_observer {
+class field_count : public quote_observer_interface {
 public:
-  field_count(shared_ptr<message_subject> model) : message_observer(model) {}
+  field_count(shared_ptr<quote_subject> model) : quote_observer_interface(model) {}
   void update(shared_ptr<message>);
   void ping() {};
   void on_trade(const string& timestamp, const string& value) {}

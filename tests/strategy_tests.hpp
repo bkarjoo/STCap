@@ -16,8 +16,8 @@ TEST(strategy_tests, exchange_time)
   strategy s(qp);
   s.on_trade("93015123","1235000");
   exchange_time et;
-  et.set("93015123");
-  EXPECT_EQ(s.get_time(),et.seconds_from_midnight());
+  et.set_time("93015123");
+  EXPECT_EQ(s.get_time(),et.get_seconds_from_midnight());
 }
 
 TEST(strategy_tests, precision)
@@ -85,5 +85,15 @@ TEST(strategy_tests, timetest) {
   cf.run();
   EXPECT_EQ("1","1");
 
+}
+
+TEST(strategy_tests, testconvertheadertotimestamp)
+{
+  std::shared_ptr<quote> qp(new quote());
+  strategy s(qp);
+  ;
+  EXPECT_EQ("",s.covert_header_to_timestamp(""));
+  EXPECT_EQ("102241000",s.covert_header_to_timestamp("10:22:41"));
+  EXPECT_EQ("92241000",s.covert_header_to_timestamp("09:22:41"));
 }
 #endif
